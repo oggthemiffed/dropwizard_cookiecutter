@@ -1,0 +1,92 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '5.0.0'
+    id 'jacoco'
+}
+
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'application'
+
+group '{{cookiecutter.project_namespace}}'
+version '1.0-SNAPSHOT'
+
+mainClassName = "{{cookiecutter.package}}.MicroServiceApplication"
+
+sourceSets {
+    main {
+        java {
+            srcDirs 'build/generated/source/proto/main/grpc'    // Include generated gRPC protobuf classes
+            srcDirs 'build/generated/source/proto/main/java'    // Include generated gRPC protobuf classes
+        }
+    }
+    integration {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file("src/integration/java")
+        }
+        resources.srcDir file("src/integration/resources")
+    }
+}
+
+
+project.ext {
+    dropwizardVersion = '2.0.10'
+    mockitoVersion = '2.26.0'
+    testcontainersVersion = '1.6.0'
+    errorProneAnnotationsVersion = '2.3.4'
+    junitVersion = '5.6.2'
+    dropwizardGuicey = '5.0.0'
+    lombokVersion = '1.18.12'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+    google()
+}
+
+dependencies {
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    compile "ru.vyarus:dropwizard-guicey:${dropwizardGuicey}"
+
+    compile "io.dropwizard:dropwizard-core:${dropwizardVersion}"
+    compile "io.dropwizard:dropwizard-metrics-graphite:${dropwizardVersion}"
+    compileOnly "com.google.errorprone:error_prone_annotations:${errorProneAnnotationsVersion}"
+
+    testCompile "io.dropwizard:dropwizard-testing:${dropwizardVersion}"
+    testCompile "org.mockito:mockito-core:${mockitoVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    testImplementation("org.junit.jupiter:junit-jupiter:${junitVersion}")
+}
+
+compileJava {
+    options.compilerArgs.addAll(['--release', '{{cookiecutter.java_version}}'])
+}
+
+task debug{ doLast {} }
+debug.dependsOn {
+    run {
+        jvmArgs '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005',
+                '-Dcom.sun.management.jmxremote',
+                '-Dcom.sun.management.jmxremote.port=1099',
+                '-Dcom.sun.management.jmxremote.rmi.port=1099',
+                '-Dcom.sun.management.jmxremote.local.only=false',
+                '-Dcom.sun.management.jmxremote.authenticate=false',
+                '-Dcom.sun.management.jmxremote.ssl=false',
+                "-Djava.rmi.server.hostname=${rmihost}"
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.3"
+}
+
+run {
+    args 'server', 'dev.yml'
+}
