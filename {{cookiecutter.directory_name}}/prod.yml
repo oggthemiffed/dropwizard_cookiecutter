@@ -1,0 +1,24 @@
+# Logging settings
+# This uses dropwizard-logging, supporting all configuration options defined here:
+#   https://www.dropwizard.io/0.9.2/docs/manual/configuration.html#logging
+logging:
+  level: INFO
+  appenders:
+    - type: console
+      logFormat: "%highlight(%-5p) [%d{ISO8601,UTC}] [%t] %c: %m%n%rEx"
+
+# Metrics configuration
+# This uses dropwizard-metrics, supporting all configuration options defined here:
+#   https://www.dropwizard.io/0.9.2/docs/manual/configuration.html#metrics
+metrics:
+  frequency: 1m
+  reporters:
+    - type: {{cookiecutter.metric_type}}
+      host: {{cookiecutter.metric_host}}
+      port: {{cookiecutter.metric_port}}
+      prefix: {{cookiecutter.metric_prefix}}
+    - type: log
+      logger: metrics
+
+testParameter: BOOM
+
