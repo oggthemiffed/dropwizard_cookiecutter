@@ -2,6 +2,10 @@
     "project_name": "",
     "project_group": "",
     "package": "{{cookiecutter.project_group}}.{{cookiecutter.project_name|lower|replace('-', '')|replace('_', '')}}",
+    "metric_prefix": "{{cookiecutter.package}}",
+    "metric_port": "2003",
+    "metric_host": "",
+    "metric_type": "graphite",
     "package_dir": "{{cookiecutter.package|replace('.', '/')}}",
     "version": "{{cookiecutter.version}}-SNAPSHOT",
     "java_version": "11",
@@ -9,6 +13,7 @@
     "_copy_without_render": [
         "*.jar",
         "gradlew",
-        "gradlew.bat"
+        "gradlew.bat",
+        ".gitignore"
     ]
 }
