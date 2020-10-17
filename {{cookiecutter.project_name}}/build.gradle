@@ -10,7 +10,7 @@ apply plugin: 'application'
 group '{{cookiecutter.project_group}}'
 version '1.0-SNAPSHOT'
 
-mainClassName = "{{cookiecutter.package}}.MicroServiceApplication"
+mainClassName = "{{cookiecutter.package}}.ServiceApplication"
 
 sourceSets {
     main {
