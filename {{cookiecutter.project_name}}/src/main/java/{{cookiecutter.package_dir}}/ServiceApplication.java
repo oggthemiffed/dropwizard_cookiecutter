@@ -6,19 +6,19 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import ru.vyarus.dropwizard.guice.GuiceBundle;
 
-public class MicroServiceApplication extends Application<MicroServiceConfiguration> {
+public class ServiceApplication extends Application<ApplicationConfiguration> {
 
     public static void main(final String[] args) throws Exception {
-        new MicroServiceApplication().run(args);
+        new ServiceApplication().run(args);
     }
 
     @Override
     public String getName() {
-        return "{{cookiecutter.application_name}}";
+        return "{{cookiecutter.project_name}}";
     }
 
     @Override
-    public void initialize(final Bootstrap<MicroServiceConfiguration> bootstrap) {
+    public void initialize(final Bootstrap<ApplicationConfiguration> bootstrap) {
         // TODO: application initialization
         bootstrap.addBundle(GuiceBundle.builder()
                 .enableAutoConfig(getClass().getPackage().getName())
@@ -27,7 +27,7 @@ public class MicroServiceApplication extends Application<MicroServiceConfigurati
     }
 
     @Override
-    public void run(final MicroServiceConfiguration configuration,
+    public void run(final ApplicationConfiguration configuration,
                     final Environment environment) {
         // TODO: implement application
         environment.getObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);

@@ -7,13 +7,15 @@
     "metric_host": "",
     "metric_type": "graphite",
     "package_dir": "{{cookiecutter.package|replace('.', '/')}}",
-    "version": "{{cookiecutter.version}}-SNAPSHOT",
+    "version": "0.0.1-SNAPSHOT",
     "java_version": "11",
     "version_control": ["git", "none"],
+    "version_control_remote_origin": "",
     "_copy_without_render": [
         "*.jar",
         "gradlew",
         "gradlew.bat",
-        ".gitignore"
+        ".gitignore",
+        "LICENSE"
     ]
 }
