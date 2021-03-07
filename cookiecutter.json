@@ -8,7 +8,7 @@
     "metric_type": "graphite",
     "package_dir": "{{cookiecutter.package|replace('.', '/')}}",
     "version": "0.0.1-SNAPSHOT",
-    "java_version": "11",
+    "java_version": "15",
     "version_control": ["git", "none"],
     "version_control_remote_origin": "",
     "_copy_without_render": [
