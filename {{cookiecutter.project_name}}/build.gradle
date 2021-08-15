@@ -13,6 +13,17 @@ version '1.0-SNAPSHOT'
 
 mainClassName = "{{cookiecutter.package}}.ServiceApplication"
 
+shadowJar {
+	mergeServiceFiles()
+	exclude 'META-INF/*.DSA'
+	exclude 'META-INF/*.RSA'
+}
+jar {
+	manifest {
+		attributes 'Main-Class': mainClassName
+	}
+}
+
 sourceSets {
     main {
         java {
@@ -66,10 +77,6 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:${junitVersion}")
 }
 
-compileJava {
-    options.compilerArgs.addAll(['--release', '{{cookiecutter.java_version}}'])
-}
-
 task debug{ doLast {} }
 debug.dependsOn {
     run {
@@ -119,8 +126,7 @@ spotless {
 }
 
 compileJava {
-	options.compilerArgs.addAll(['--release', '15'])
-
+	options.compilerArgs.addAll(['--release', '{{cookiecutter.java_version}}'])
 	dependsOn tasks.named("spotlessApply")
 }
 

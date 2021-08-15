@@ -1,0 +1,2 @@
+#!/bin/sh
+./gradlew spotlessJavaCheck spotlessMiscCheck --no-daemon
